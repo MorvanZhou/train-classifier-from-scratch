@@ -20,7 +20,7 @@ def convert2onehot(data):
 
 
 if __name__ == "__main__":
-    data = load_data(download=False)
+    data = load_data(download=True)
     new_data = convert2onehot(data)
 
     print(data.head())
