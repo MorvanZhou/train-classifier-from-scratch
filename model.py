@@ -1,23 +1,10 @@
 import numpy as np
 import tensorflow as tf
-import pandas as pd
 import matplotlib.pyplot as plt
-from urllib.request import urlretrieve
+import data_processing
 
-DOWNLOAD = False
-
-# download data from : http://archive.ics.uci.edu/ml/datasets/Car+Evaluation
-if DOWNLOAD:
-    data_path, _ = urlretrieve("http://archive.ics.uci.edu/ml/machine-learning-databases/car/car.data", "car.csv")
-
-# data processing
-col_name = ["buying", "maint", "doors", "persons", "lug_boot", "safety", "class"]
-data = pd.read_csv("car.csv", names=col_name)
-
-
-# covert class data to onehot
-new_n_col = sum([len(pd.unique(data[name])) for name in col_name])
-new_data = pd.get_dummies(data, prefix=col_name)
+data = data_processing.load_data(download=True)
+new_data = data_processing.convert2onehot(data)
 
 
 # prepare training data
@@ -62,9 +49,10 @@ for t in range(2000):
         # visualize training
         plt.cla()
         for c in range(4):
-            plt.bar(x=c+0.1, height=sum((np.argmax(pred_, axis=1) == c)), width=0.2, color='red')
-            plt.bar(x=c-0.1, height=sum((np.argmax(test_data[:, 21:], axis=1) == c)), width=0.2, color='blue')
-        plt.xticks(range(4), ["acc", "good", "unacc", "vgood"])
+            bp, = plt.bar(x=c+0.1, height=sum((np.argmax(pred_, axis=1) == c)), width=0.2, color='red')
+            bt, = plt.bar(x=c-0.1, height=sum((np.argmax(test_data[:, 21:], axis=1) == c)), width=0.2, color='blue')
+        plt.xticks(range(4), ["accepted", "good", "unaccepted", "very good"])
+        plt.legend(handles=[bp, bt], labels=["prediction", "target"])
         plt.pause(0.1)
 
 plt.ioff()
