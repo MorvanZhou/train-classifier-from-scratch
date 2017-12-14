@@ -28,7 +28,7 @@ prediction = tf.nn.softmax(out, name="pred")
 loss = tf.losses.softmax_cross_entropy(onehot_labels=tfy, logits=out)
 accuracy = tf.metrics.accuracy(          # return (acc, update_op), and create 2 local variables
     labels=tf.argmax(tfy, axis=1), predictions=tf.argmax(out, axis=1),)[1]
-opt = tf.train.AdamOptimizer(learning_rate=0.01)
+opt = tf.train.GradientDescentOptimizer(learning_rate=0.1)
 train_op = opt.minimize(loss)
 
 sess = tf.Session()
@@ -36,24 +36,35 @@ sess.run(tf.group(tf.global_variables_initializer(), tf.local_variables_initiali
 
 # training
 plt.ion()
-for t in range(2000):
+plt.figure(figsize=(8, 4))
+accuracies, steps = [], []
+for t in range(4000):
+    # training
     batch_index = np.random.randint(len(train_data), size=32)
     sess.run(train_op, {tf_input: train_data[batch_index]})
-    if t % 50 == 0:
-        acc_, pred_ = sess.run([accuracy, prediction], {tf_input: test_data})
-        print(
-            "Step: %i" % t,
-            "| Accurate: %.2f" % acc_,
-        )
 
-        # visualize training
+    if t % 50 == 0:
+        # testing
+        acc_, pred_, loss_ = sess.run([accuracy, prediction, loss], {tf_input: test_data})
+        accuracies.append(acc_)
+        steps.append(t)
+        print("Step: %i" % t,"| Accurate: %.2f" % acc_,"| Loss: %.2f" % loss_,)
+
+        # visualize testing
+        plt.subplot(121)
         plt.cla()
         for c in range(4):
             bp, = plt.bar(x=c+0.1, height=sum((np.argmax(pred_, axis=1) == c)), width=0.2, color='red')
             bt, = plt.bar(x=c-0.1, height=sum((np.argmax(test_data[:, 21:], axis=1) == c)), width=0.2, color='blue')
         plt.xticks(range(4), ["accepted", "good", "unaccepted", "very good"])
         plt.legend(handles=[bp, bt], labels=["prediction", "target"])
-        plt.pause(0.1)
+        plt.ylim((0, 400))
+        plt.subplot(122)
+        plt.cla()
+        plt.plot(steps, accuracies, label="accuracy")
+        plt.ylim(ymax=1)
+        plt.ylabel("accuracy")
+        plt.pause(0.01)
 
 plt.ioff()
 plt.show()
