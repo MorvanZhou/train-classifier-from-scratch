@@ -29,10 +29,10 @@ I've also wrote a detailed tutorial in Chinese in [莫烦Python](https://morvanz
 
 
 ## Dependencies
-Python
-tensorflow
-pandas
-numpy
-matplotlib
+* Python
+* tensorflow
+* pandas
+* numpy
+* matplotlib
 
 You can view more tutorials on [this page](https://morvanzhou.github.io/) or know more about me on [here](https://morvanzhou.github.io/about/).
