@@ -3,7 +3,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import data_processing
 
-data = data_processing.load_data(download=True)
+data = data_processing.load_data(download=False)
 new_data = data_processing.convert2onehot(data)
 
 
@@ -36,7 +36,7 @@ sess.run(tf.group(tf.global_variables_initializer(), tf.local_variables_initiali
 
 # training
 plt.ion()
-plt.figure(figsize=(8, 4))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
 accuracies, steps = [], []
 for t in range(4000):
     # training
@@ -51,19 +51,17 @@ for t in range(4000):
         print("Step: %i" % t,"| Accurate: %.2f" % acc_,"| Loss: %.2f" % loss_,)
 
         # visualize testing
-        plt.subplot(121)
-        plt.cla()
+        ax1.cla()
         for c in range(4):
-            bp, = plt.bar(x=c+0.1, height=sum((np.argmax(pred_, axis=1) == c)), width=0.2, color='red')
-            bt, = plt.bar(x=c-0.1, height=sum((np.argmax(test_data[:, 21:], axis=1) == c)), width=0.2, color='blue')
-        plt.xticks(range(4), ["accepted", "good", "unaccepted", "very good"])
-        plt.legend(handles=[bp, bt], labels=["prediction", "target"])
-        plt.ylim((0, 400))
-        plt.subplot(122)
-        plt.cla()
-        plt.plot(steps, accuracies, label="accuracy")
-        plt.ylim(ymax=1)
-        plt.ylabel("accuracy")
+            bp = ax1.bar(x=c+0.1, height=sum((np.argmax(pred_, axis=1) == c)), width=0.2, color='red')
+            bt = ax1.bar(x=c-0.1, height=sum((np.argmax(test_data[:, 21:], axis=1) == c)), width=0.2, color='blue')
+        ax1.set_xticks(range(4), ["accepted", "good", "unaccepted", "very good"])
+        ax1.legend(handles=[bp, bt], labels=["prediction", "target"])
+        ax1.set_ylim((0, 400))
+        ax2.cla()
+        ax2.plot(steps, accuracies, label="accuracy")
+        ax2.set_ylim(ymax=1)
+        ax2.set_ylabel("accuracy")
         plt.pause(0.01)
 
 plt.ioff()
