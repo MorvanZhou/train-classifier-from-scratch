@@ -1,4 +1,4 @@
-# Train a car status classifier from scratch
+# Train a car condition classifier from scratch
 
 This is a step by step tutorial of training a neural network classifier.
 The dataset I'm using is from [UCI](http://archive.ics.uci.edu/ml/datasets/Car+Evaluation).
