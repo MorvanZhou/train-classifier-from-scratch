@@ -53,8 +53,8 @@ for t in range(4000):
         # visualize testing
         ax1.cla()
         for c in range(4):
-            bp = ax1.bar(x=c+0.1, height=sum((np.argmax(pred_, axis=1) == c)), width=0.2, color='red')
-            bt = ax1.bar(x=c-0.1, height=sum((np.argmax(test_data[:, 21:], axis=1) == c)), width=0.2, color='blue')
+            bp = ax1.bar(c+0.1, height=sum((np.argmax(pred_, axis=1) == c)), width=0.2, color='red')
+            bt = ax1.bar(c-0.1, height=sum((np.argmax(test_data[:, 21:], axis=1) == c)), width=0.2, color='blue')
         ax1.set_xticks(range(4), ["accepted", "good", "unaccepted", "very good"])
         ax1.legend(handles=[bp, bt], labels=["prediction", "target"])
         ax1.set_ylim((0, 400))
