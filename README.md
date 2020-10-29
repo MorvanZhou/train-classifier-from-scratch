@@ -2,7 +2,7 @@
 
 This is a step by step tutorial of training a neural network classifier.
 The dataset I'm using is from [UCI](http://archive.ics.uci.edu/ml/datasets/Car+Evaluation).
-I've also wrote a detailed tutorial in Chinese in [莫烦Python](https://morvanzhou.github.io/tutorials/machine-learning/ML-practice/build-car-classifier-from-scratch1/).
+I've also wrote a detailed tutorial in Chinese in [莫烦Python](https://mofanpy.com/tutorials/machine-learning/ML-practice/build-car-classifier-from-scratch1/).
 
 ## Data description
 
@@ -35,4 +35,4 @@ I've also wrote a detailed tutorial in Chinese in [莫烦Python](https://morvanz
 * numpy
 * matplotlib
 
-You can view more tutorials on [this page](https://morvanzhou.github.io/) or know more about me on [here](https://morvanzhou.github.io/about/).
+You can view more tutorials on [this page](https://mofanpy.com/) or know more about me on [here](https://mofanpy.com/about/).
